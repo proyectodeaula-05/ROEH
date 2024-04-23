@@ -6,8 +6,8 @@ def crear_tabla_usuarios():
     cursor = conexion.cursor()
     
     # Crear la tabla de usuarios si no existe
-    cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
-                        id INTEGER PRIMARY KEY,
+    cursor.execute('''CREA TABLA SI NO EXISTEN usuarios (
+                        id INTEGRE LLAVE PRIMARIA,
                         nombre TEXT NOT NULL,
                         email TEXT NOT NULL UNIQUE,
                         contraseña TEXT NOT NULL
