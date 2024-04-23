@@ -5,7 +5,7 @@ def crear_tabla_usuarios():
     conexion = sqlite3.connect('usuarios.db')
     cursor = conexion.cursor()
     
-    # Crear la tabla de usuarios si no existe
+    # Crear la tabla del usuario si no existe
     cursor.execute('''CREA TABLA SI NO EXISTEN usuarios (
                         id INTEGRE LLAVE PRIMARIA,
                         nombre TEXT NOT NULL,
