@@ -1,3 +1,4 @@
+# ROEH
 import sqlite3
 
 # Conectar a la base de datos (se creará si no existe)
@@ -26,11 +27,10 @@ electrodomesticos = {
     "Congeladores": "Congeladores",
     "Campanas extractoras": "Campanas extractoras",
     "Microondas": "Microondas",
-    "Equipos de calefacción": "Aires acondicionados",
+    "Aires acondicionados": "Aires acondicionados",
     "Lavadoras": "Lavadoras",
     "Secadoras": "Secadoras",
-    "Lavaplatos": "Lavaplatos",
-    "Aire acondicionado": "Aire acondicionado",
+    "Lavavajillas": "Lavavajillas",
     "Consola de videojuegos": "Consola de videojuegos",
     "Ordenadores portátiles y de mesa": "Ordenadores portátiles y de mesa",
     "Teléfonos inteligentes": "Teléfonos inteligentes",
@@ -40,7 +40,7 @@ electrodomesticos = {
     "Teclados": "Teclados",
     "Freidoras": "Freidoras",
     "Cafeteras": "Cafeteras",
-    "Expresores": "Expresores"
+    "Licuadora": "Licuadora"
 }
 
 # Insertar datos en la tabla
