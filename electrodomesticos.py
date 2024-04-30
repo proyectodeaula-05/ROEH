@@ -1,6 +1,6 @@
 import sqlite3
 
-
+# Función para crear la tabla
 def crear_tabla():
     conexion = sqlite3.connect('electrodomesticos.db')
     cursor = conexion.cursor()
@@ -12,6 +12,7 @@ def crear_tabla():
     conexion.commit()
     conexion.close()
 
+# Función para verificar si un electrodoméstico ya existe
 def electrodomestico_existe(nombre):
     conexion = sqlite3.connect('electrodomesticos.db')
     cursor = conexion.cursor()
@@ -20,7 +21,7 @@ def electrodomestico_existe(nombre):
     conexion.close()
     return electrodomestico is not None
 
-
+# Función para insertar un electrodoméstico
 def insertar_electrodomestico():
     nombre = input("Ingrese el nombre del electrodoméstico: ")
     
@@ -38,7 +39,7 @@ def insertar_electrodomestico():
     conexion.commit()
     conexion.close()
 
-
+# Función para mostrar todos los electrodomésticos
 def mostrar_electrodomesticos():
     conexion = sqlite3.connect('electrodomesticos.db')
     cursor = conexion.cursor()
@@ -49,5 +50,9 @@ def mostrar_electrodomesticos():
         print(f"ID: {electrodomestico[0]}, Nombre: {electrodomestico[1]}, Gasto energético: {electrodomestico[2]}")
     conexion.close()
 
-
+# Crear la tabla si no existe
 crear_tabla()
+
+# Ejemplo de uso
+insertar_electrodomestico()
+mostrar_electrodomesticos()
