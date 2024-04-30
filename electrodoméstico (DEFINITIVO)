@@ -35,7 +35,7 @@ def insertar_electrodomestico():
         print("¡Error! Ya existe un electrodoméstico con ese nombre.")
         return
     
-    gasto_energetico = input("Ingrese el grado de gasto energético (por ejemplo, A++, A+, A, B, etc.): ").strip()
+    gasto_energetico = input("Ingrese el grado de gasto energético (por ejemplo, A, B, C, D, E, F o G.): ").strip()
     
     # Validar que el grado de gasto energético no esté en blanco
     if not gasto_energetico:
