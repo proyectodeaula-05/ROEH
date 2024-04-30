@@ -1,0 +1,12 @@
+gasto_mes_1=int(input("coloca el gasto en el primer mes"))
+gasto_mes_2=int(input("coloca el gasto del segundo mes"))
+gasto_mes_3=int(input("coloca el gasto del tercer mes"))
+gasto_mes_4=int(input("coloca el gasto del cuarto mes"))
+gasto_mes_5=int(input("coloca el gasto del quinto mes"))
+gasto_mes_6=int(input("coloca el gasto del sexto mes"))
+
+
+sumagastos=int(gasto_mes_1 + gasto_mes_2 + gasto_mes_3 + gasto_mes_4 + gasto_mes_5 + gasto_mes_6)
+print(sumagastos)
+promedio=(sumagastos / 6)
+print(promedio)
