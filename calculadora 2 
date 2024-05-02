@@ -1,0 +1,52 @@
+def calcular_promedio():
+    print("\nCalcular promedio\n")
+    numeros = []
+    while True:
+        num = input("Ingrese un número (o 'fin' para terminar): ")
+        if num.lower() == 'fin':
+            break
+        try:
+            numero = float(num)
+            numeros.append(numero)
+        except ValueError:
+            print("Por favor, ingrese un número válido.")
+
+    if numeros:
+        promedio = sum(numeros) / len(numeros)
+        print(f"El promedio de los números ingresados es: {promedio}")
+    else:
+        print("No se ingresaron números para calcular el promedio.")
+
+
+def mostrar_electrodomesticos():
+    print("\nLista de electrodomésticos\n")
+    electrodomesticos = ["Refrigerador", "Microondas", "Lavadora", "Licuadora", "Televisor"]
+    for electrodomestico in electrodomesticos:
+        print("- " + electrodomestico)
+
+
+while True:
+    try:
+        opcion = int(input("\nMenu\n------\n" +
+                           "\t1. Calcular promedio\n" +
+                           "\t2. Lista de electrodomésticos\n" +
+                           "\t3. Cerrar\n\n" +
+                           "Por favor ingrese una opción: "))
+
+        if opcion == 1:
+            calcular_promedio()
+
+        elif opcion == 2:
+            mostrar_electrodomesticos()
+
+        elif opcion == 3:
+            print("\nCerrando el programa\n")
+            break
+
+        else:
+            print("\nOpción no válida. Por favor, ingrese una opción válida.\n")
+
+    except ValueError:
+        print("\nPor favor, ingrese un número válido como opción.\n")
+
+print("Programa finalizado.")
