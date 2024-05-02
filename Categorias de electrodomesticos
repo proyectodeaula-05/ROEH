@@ -1,1 +1,51 @@
+class Categoria:
+    def __init__(self, nombre, carcteristicas_principales):
+        self.nombre = nombre
+        self.caracteristicas_principales = carcteristicas_principales
 
+categorias = [
+    Categoria('A', ['Iluminación LED', 'Electrodomésticos eficientes', 'Aislamiento térmico']),
+    Categoria('B', ['Iluminación convencional', 'Electrodomésticos estándar', 'Aislamiento moderado']),
+    Categoria('C', ['Iluminación convencional', 'Electrodomésticos convencionales', 'Poca o ninguna mejora en aislamiento']),
+    Categoria('D', ['Iluminación convencional', 'Electrodomésticos antiguos', 'Poca o ninguna inversión en eficiencia energética']),
+    Categoria('E', ['Iluminación ineficiente', 'Electrodomésticos obsoletos', 'Ningún aislamiento térmico']),
+    Categoria('F', ['Uso excesivo de energía', 'Mal mantenimiento de equipos', 'Desperdicio de recursos']),
+    Categoria('G', ['Derroche de energía', 'Equipos ineficientes', 'Ningún control de consumo'])
+]
+
+def mostrar_categorias():
+    print("Categorías de consumo energético:")
+    for categoria in categorias:
+        print("-", categoria.nombre)
+
+def seleccionar_categoria():
+    nombre_categoria = input("Ingrese el nombre de la categoría de su electrodoméstico: ").upper()
+    for categoria in categorias:
+        if categoria.nombre == nombre_categoria:
+            print(f"Has seleccionado la categoría {categoria.nombre}.")
+            print(f"Las caracteristicas principales son:")
+            for caracteristica in categoria.caracteristicas_principales:
+                print("-", caracteristica)
+            return
+    print("La categoría ingresada no es válida. Por favor, seleccione una categoría válida.")
+
+def main():
+    print("Bienvenido a la categorización de consumo energético.")
+    while True:
+        print("\n1. Mostrar categorías")
+        print("2. Seleccionar categoría de electrodoméstico")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ")
+
+        if opcion == '1':
+            mostrar_categorias()
+        elif opcion == '2':
+            seleccionar_categoria()
+        elif opcion == '3':
+            print("¡Hasta luego!")
+            break
+        else:
+            print("Opción inválida. Por favor, seleccione una opción válida.")
+
+if __name__ == "__main__":
+    main()
