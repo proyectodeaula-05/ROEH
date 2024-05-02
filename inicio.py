@@ -119,50 +119,53 @@ def mostrar():
         crear_tabla()
 
         # Menú principal
-while True:
-    print("\n1. Agregar electrodoméstico")
-    print("2. Eliminar electrodoméstico")
-    print("3. Mostrar lista de electrodomésticos")
-    print("4. Salir")
-            
-    opcion = input("Seleccione una opción: ")
-            
-    if opcion == "1":
-       agregar_alista()
-    elif opcion == "2":
-                elminiar()
-    elif opcion == "3":
-                mostrar()
-    elif opcion == "4":
-        print("¡Hasta luego!")
-        break
-    else:
-        print("Opción no válida. Por favor, seleccione una opción válida.")
 
+def menu_secundario():
 
-while True:
-    try:
-        opcion = int(input("\nMenu\n------\n" +
-                           "\t1. Calcular promedio\n" +
-                           "\t2. Lista de electrodomésticos\n" +
-                           "\t3. Cerrar\n\n" +
-                           "Por favor ingrese una opción: "))
-
-        if opcion == 1:
-            calcular_promedio()
-
-        elif opcion == 2:
-            electrodomesticos()
-
-        elif opcion == 3:
-            print("\nCerrando el programa\n")
+    while True:
+        print("\n1. Agregar electrodoméstico")
+        print("2. Eliminar electrodoméstico")
+        print("3. Mostrar lista de electrodomésticos")
+        print("4. Salir")
+                
+        opcion = input("Seleccione una opción: ")
+                
+        if opcion == "1":
+         agregar_alista()
+        elif opcion == "2":
+             elminiar()
+        elif opcion == "3":
+                    mostrar()
+        elif opcion == "4":
+            print("¡Hasta luego!")
             break
-
         else:
-            print("\nOpción no válida. Por favor, ingrese una opción válida.\n")
+            print("Opción no válida. Por favor, seleccione una opción válida.")
 
-    except ValueError:
-        print("\nPor favor, ingrese un número válido como opción.\n")
+def menu_principla():
+    while True:
+        try:
+            opcion = int(input("\nMenu\n------\n" +
+                            "\t1. Calcular promedio\n" +
+                            "\t2. Lista de electrodomésticos\n" +
+                            "\t3. Cerrar\n\n" +
+                            "Por favor ingrese una opción: "))
 
-print("Programa finalizado.")
+            if opcion == 1:
+                calcular_promedio()
+
+            elif opcion == 2:
+                menu_secundario()
+
+            elif opcion == 3:
+                print("\nCerrando el programa\n")
+                break
+
+            else:
+                print("\nOpción no válida. Por favor, ingrese una opción válida.\n")
+
+        except ValueError:
+            print("\nPor favor, ingrese un número válido como opción.\n")
+
+    print("Programa finalizado.")
         
