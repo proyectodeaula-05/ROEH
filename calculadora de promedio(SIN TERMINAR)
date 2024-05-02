@@ -6,11 +6,11 @@ def calcular_promedio(datos):
 def main():
     datos = []
     for i in range(6):
-        dato = float(input("Ingrese el dato {}: ".format(i+1)))
+        dato = float(input("Ingrese los datos del mes {}: ".format(i+1)))
         datos.append(dato)
 
     promedio = calcular_promedio(datos)
-    print("El promedio de los datos es:", promedio)
+    print("El promedio de los gastos es:", promedio)
 
 if __name__ == "__main__":
     main()
