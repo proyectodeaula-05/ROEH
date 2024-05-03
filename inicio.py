@@ -17,43 +17,28 @@ def calcular_promedio():
     print("El promedio de los gastos es:", promedio)
 
 # Funciones para la gestión de electrodomésticos
-def crear_tabla():
-    conexion = sqlite3.connect('electrodomesticos.db')
-    cursor = conexion.cursor()
-    cursor.execute('''CREATE TABLE IF NOT EXISTS electrodomesticos (
-                        id INTEGER PRIMARY KEY,
-                        nombre TEXT NOT NULL,
-                        gasto_energetico TEXT NOT NULL
-                    )''')
-    conexion.commit()
-    conexion.close()
+def crear_tabla_electrodomesticos():
+    with sqlite3.connect('electrodomesticos.db') as conexion:
+        cursor = conexion.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS electrodomesticos (
+                            id INTEGER PRIMARY KEY,
+                            nombre TEXT NOT NULL,
+                            gasto_energetico TEXT NOT NULL
+                        )''')
 
 def insertar_electrodomestico(conexion):
     nombre = input("Ingrese el nombre del electrodoméstico: ").strip()
-    if not nombre:
-        print("¡Error! El nombre del electrodoméstico no puede estar en blanco.")
-        return
-    
-    if electrodomestico_existe(conexion, nombre):
-        print("¡Error! Ya existe un electrodoméstico con ese nombre.")
-        return
-    
     gasto_energetico = input("Ingrese el grado de gasto energético (por ejemplo, A, B, C, D, E, F o G.): ").strip()
-    if not gasto_energetico:
-        print("¡Error! El grado de gasto energético no puede estar en blanco.")
-        return
-    
-    cursor = conexion.cursor()
-    cursor.execute('''INSERT INTO electrodomesticos (nombre, gasto_energetico) 
-                    VALUES (?, ?)''', (nombre, gasto_energetico))
-    conexion.commit()
-    print("Electrodoméstico agregado correctamente.")
 
-def electrodomestico_existe(conexion, nombre):
-    cursor = conexion.cursor()
-    cursor.execute('''SELECT * FROM electrodomesticos WHERE nombre = ?''', (nombre,))
-    electrodomestico = cursor.fetchone()
-    return electrodomestico is not None
+    if not nombre or not gasto_energetico:
+        print("¡Error! El nombre del electrodoméstico y el grado de gasto energético no pueden estar en blanco.")
+        return
+
+    with conexion:
+        cursor = conexion.cursor()
+        cursor.execute('''INSERT INTO electrodomesticos (nombre, gasto_energetico) 
+                        VALUES (?, ?)''', (nombre, gasto_energetico))
+    print("Electrodoméstico agregado correctamente.")
 
 def eliminar_electrodomestico(conexion):
     id_eliminar = input("Ingrese el ID del electrodoméstico que desea eliminar: ")
@@ -63,21 +48,64 @@ def eliminar_electrodomestico(conexion):
         print("¡Error! El ID debe ser un número entero.")
         return
 
-    cursor = conexion.cursor()
-    cursor.execute('''DELETE FROM electrodomesticos WHERE id = ?''', (id_eliminar,))
-    if cursor.rowcount == 0:
-        print("¡Error! No se encontró ningún electrodoméstico con ese ID.")
-    else:
-        print("Electrodoméstico eliminado correctamente.")
-    conexion.commit()
+    with conexion:
+        cursor = conexion.cursor()
+        cursor.execute('''DELETE FROM electrodomesticos WHERE id = ?''', (id_eliminar,))
+        if cursor.rowcount == 0:
+            print("¡Error! No se encontró ningún electrodoméstico con ese ID.")
+        else:
+            print("Electrodoméstico eliminado correctamente.")
 
 def mostrar_electrodomesticos(conexion):
-    cursor = conexion.cursor()
-    cursor.execute('''SELECT * FROM electrodomesticos''')
-    electrodomesticos = cursor.fetchall()
-    print("Lista de electrodomésticos:")
-    for electrodomestico in electrodomesticos:
-        print(f"ID: {electrodomestico[0]}, Nombre: {electrodomestico[1]}, Gasto energético: {electrodomestico[2]}")
+    with conexion:
+        cursor = conexion.cursor()
+        cursor.execute('''SELECT * FROM electrodomesticos''')
+        electrodomesticos = cursor.fetchall()
+        print("Lista de electrodomésticos:")
+        for electrodomestico in electrodomesticos:
+            print(f"ID: {electrodomestico[0]}, Nombre: {electrodomestico[1]}, Gasto energético: {electrodomestico[2]}")
+
+# Funciones para la gestión de usuarios
+def crear_tabla_usuarios():
+    with sqlite3.connect('usuarios.db') as conexion:
+        cursor = conexion.cursor()
+        cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
+                            id INTEGER PRIMARY KEY,
+                            usuario TEXT NOT NULL,
+                            contrasena TEXT NOT NULL
+                        )''')
+
+def insertar_usuario():
+    usuario = input("Ingrese el nombre de usuario: ").strip()
+    contrasena = input("Ingrese la contraseña: ").strip()
+
+    if not usuario or not contrasena:
+        print("¡Error! El nombre de usuario y la contraseña no pueden estar en blanco.")
+        return
+
+    with sqlite3.connect('usuarios.db') as conexion:
+        cursor = conexion.cursor()
+        cursor.execute('''INSERT INTO usuarios (usuario, contrasena) 
+                        VALUES (?, ?)''', (usuario, contrasena))
+    print("Usuario creado correctamente.")
+
+def iniciar_sesion():
+    print("\nInicio de sesión\n")
+    while True:
+        usuario = input("Usuario: ")
+        contrasena = input("Contraseña: ")
+        
+        with sqlite3.connect('usuarios.db') as conexion:
+            cursor = conexion.cursor()
+            cursor.execute('''SELECT * FROM usuarios WHERE usuario = ? AND contrasena = ?''', (usuario, contrasena))
+            resultado = cursor.fetchone()
+
+        if resultado:
+            print("\nInicio de sesión exitoso.\n")
+            return True
+        else:
+            print("\nUsuario o contraseña incorrectos. Inténtelo de nuevo.\n")
+            return False
 
 def menu_secundario(conexion):
     while True:
@@ -101,36 +129,47 @@ def menu_secundario(conexion):
             print("Opción no válida. Por favor, seleccione una opción válida.")
 
 def menu_principal():
-    crear_tabla()
-    conexion = sqlite3.connect('electrodomesticos.db')
+    crear_tabla_usuarios()
+    crear_tabla_electrodomesticos()
     while True:
-        try:
-            opcion = int(input("\nMenu\n------\n" +
-                            "\t1. Calcular promedio\n" +
-                            "\t2. Lista de electrodomésticos\n" +
-                            "\t3. Cerrar\n\n" +
-                            "Por favor ingrese una opción: "))
+        print("\n1. Iniciar sesión")
+        print("2. Crear usuario")
+        print("3. Salir")
+                
+        opcion = input("Seleccione una opción: ")
+                
+        if opcion == "1":
+            if iniciar_sesion():
+                with sqlite3.connect('electrodomesticos.db') as conexion:
+                    while True:
+                        try:
+                            opcion = int(input("\nMenu\n------\n" +
+                                            "\t1. Calcular promedio\n" +
+                                            "\t2. Lista de electrodomésticos\n" +
+                                            "\t3. Cerrar sesión\n\n" +
+                                            "Por favor ingrese una opción: "))
 
-            if opcion == 1:
-                calcular_promedio()
-            elif opcion == 2:
-                menu_secundario(conexion)
-            elif opcion == 3:
-                print("\nCerrando el programa\n")
-                conexion.close()
-                break
-            else:
-                print("\nOpción no válida. Por favor, ingrese una opción válida.\n")
+                            if opcion == 1:
+                                calcular_promedio()
+                            elif opcion == 2:
+                                menu_secundario(conexion)
+                            elif opcion == 3:
+                                print("\nCerrando sesión\n")
+                                break
+                            else:
+                                print("\nOpción no válida. Por favor, ingrese una opción válida.\n")
 
-        except ValueError:
-            print("\nPor favor, ingrese un número válido como opción.\n")
+                        except ValueError:
+                            print("\nPor favor, ingrese un número válido como opción.\n")
+
+        elif opcion == "2":
+            insertar_usuario()
+        elif opcion == "3":
+            print("\nSaliendo del programa\n")
+            break
+        else:
+            print("Opción no válida. Por favor, seleccione una opción válida.")
 
     print("Programa finalizado.")
 
-menu_principal()
-
-# Llamada a la función para crear la tabla de electrodomésticos si no existe
-crear_tabla()
-
-# Llamada a la función del menú principal
 menu_principal()
