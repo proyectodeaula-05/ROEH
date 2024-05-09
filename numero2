@@ -28,16 +28,21 @@ def crear_tabla_electrodomesticos():
 
 def insertar_electrodomestico(conexion):
     nombre = input("Ingrese el nombre del electrodoméstico: ").strip()
-    gasto_energetico = input("Ingrese el grado de gasto energético (por ejemplo, A, B, C, D, E, F o G.): ").strip()
-
-    if not nombre or not gasto_energetico:
-        print("¡Error! El nombre del electrodoméstico y el grado de gasto energético no pueden estar en blanco.")
+    if not nombre:
+        print("¡Error! El nombre del electrodoméstico no puede estar en blanco.")
         return
-
-    with conexion:
-        cursor = conexion.cursor()
-        cursor.execute('''INSERT INTO electrodomesticos (nombre, gasto_energetico) 
-                        VALUES (?, ?)''', (nombre, gasto_energetico))
+    
+    gasto_energetico = input("Ingrese el grado de gasto energético (A, B, C, D, E, F o G): ").strip().upper()
+    if gasto_energetico not in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
+        print("¡Error! El grado de gasto energético debe ser A, B, C, D, E, F o G.")
+        return
+    
+    conexion = sqlite3.connect('electrodomesticos.db')
+    cursor = conexion.cursor()
+    cursor.execute('''INSERT INTO electrodomesticos (nombre, gasto_energetico) 
+                    VALUES (?, ?)''', (nombre, gasto_energetico))
+    conexion.commit()
+    conexion.close()
     print("Electrodoméstico agregado correctamente.")
 
 def eliminar_electrodomestico(conexion):
@@ -109,10 +114,11 @@ def iniciar_sesion():
 
 def menu_secundario(conexion):
     while True:
-        print("\n1. Agregar electrodoméstico")
+        print("\nMenu de Electrodomésticos")
+        print("1. Agregar electrodoméstico")
         print("2. Eliminar electrodoméstico")
         print("3. Mostrar lista de electrodomésticos")
-        print("4. Salir")
+        print("4. salir")
                 
         opcion = input("Seleccione una opción: ")
                 
@@ -123,8 +129,9 @@ def menu_secundario(conexion):
         elif opcion == "3":
             mostrar_electrodomesticos(conexion)
         elif opcion == "4":
-            print("¡Hasta luego!")
             break
+        elif opcion== "plan b":
+            print("es fanatica de lo sensual, ella tiene una foto mia y ya me la puedo imaginar lo que hace cuando esta solita")
         else:
             print("Opción no válida. Por favor, seleccione una opción válida.")
 
@@ -170,6 +177,6 @@ def menu_principal():
         else:
             print("Opción no válida. Por favor, seleccione una opción válida.")
 
-    print("Programa finalizado.")
+    print("chao.")
 
 menu_principal()
