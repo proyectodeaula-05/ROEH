@@ -130,8 +130,6 @@ def menu_secundario(conexion):
             mostrar_electrodomesticos(conexion)
         elif opcion == "4":
             break
-        elif opcion== "plan b":
-            print("es fanatica de lo sensual, ella tiene una foto mia y ya me la puedo imaginar lo que hace cuando esta solita")
         else:
             print("Opción no válida. Por favor, seleccione una opción válida.")
 
